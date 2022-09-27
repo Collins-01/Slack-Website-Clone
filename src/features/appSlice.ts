@@ -4,11 +4,13 @@ import { RootState, AppThunk } from '../app/store';
 
 export interface AppState {
   roomId: string;
+  roomName: string;
   
 }
 
 const initialState: AppState = {
     roomId: '',
+    roomName: ''
   
 };
 
@@ -20,6 +22,7 @@ export const appSlice = createSlice({
   reducers: {
     enterRoom: (state, action: PayloadAction<AppState>) => {
      state.roomId= action.payload.roomId;
+     state.roomName = action.payload.roomName;
     },
     
    

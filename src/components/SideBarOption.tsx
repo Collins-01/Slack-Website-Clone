@@ -13,6 +13,7 @@ type SideBarOptionProps={
     icon: any;
     addChannelOption: boolean | false; 
     id: string | null;
+    channelName: string | null
 }
 function SideBarOption(props: SideBarOptionProps) {
     const dispatch = useAppDispatch();
@@ -29,7 +30,8 @@ function SideBarOption(props: SideBarOptionProps) {
     const selectChannel = ()=>{
         if(props.id){
             const appState: AppState = {
-                roomId: props.id
+                roomId: props.id,
+                roomName: props.channelName ?? '',
             }
          dispatch(enterRoom(appState))
         }

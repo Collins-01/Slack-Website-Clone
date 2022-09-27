@@ -17,9 +17,10 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { collection } from 'firebase/firestore';
 import { auth, db } from '../firebase_app';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { DB } from '../constants';
 function SideBar() {
     const [user] = useAuthState(auth);
-    const [channels, loading, error] = useCollection(collection(db, "ROOMS"));
+    const [channels, loading, error] = useCollection(collection(db, DB.rooms));
   return (
     <SideBarContainer>
         <SideBarHeader>
@@ -34,23 +35,23 @@ function SideBar() {
             </SideBarInfo>
             <CreateIcon/>
         </SideBarHeader>
-        <SideBarOption icon={<InsertCommentIcon fontSize='small' style={{padding : 10}}/>} title='Threads' addChannelOption={false} id='01' />
-        <SideBarOption icon={<InboxIcon fontSize='small' style={{padding : 10}} />} title='Mentions & Reactions' addChannelOption={false}  id='02'/>
-        <SideBarOption icon={<DraftsIcon fontSize='small' style={{padding : 10}} />} title='Saved Items' addChannelOption={false}  id='03' />
-        <SideBarOption icon={<PeopleAltIcon fontSize='small' style={{padding : 10}} />} title='Channel Browser' addChannelOption={false}  id='04' />
-        <SideBarOption icon={<BookmarkBorderIcon fontSize='small' style={{padding : 10}} />} title='People & user groups' addChannelOption={false} id='05' />
-        <SideBarOption icon={<AppsIcon fontSize='small' style={{padding : 10}} />} title='Apps' addChannelOption={false} id='06' />
-        <SideBarOption icon={<FileCopyIcon fontSize='small' style={{padding : 10}} />} title='File browser' addChannelOption={false}  id='07'/>
-        <SideBarOption icon={<ExpandLessIcon fontSize='small' style={{padding : 10}} />} title='show less' addChannelOption={false} id='08' />
+        <SideBarOption icon={<InsertCommentIcon fontSize='small' style={{padding : 10}}/>} title='Threads' addChannelOption={false} id='01' channelName={null} />
+        <SideBarOption icon={<InboxIcon fontSize='small' style={{padding : 10}} />} title='Mentions & Reactions' addChannelOption={false}  id='02' channelName={null} />
+        <SideBarOption icon={<DraftsIcon fontSize='small' style={{padding : 10}} />} title='Saved Items' addChannelOption={false}  id='03' channelName={null} />
+        <SideBarOption icon={<PeopleAltIcon fontSize='small' style={{padding : 10}} />} title='Channel Browser' addChannelOption={false}  id='04' channelName={null} />
+        <SideBarOption icon={<BookmarkBorderIcon fontSize='small' style={{padding : 10}} />} title='People & user groups' addChannelOption={false} id='05' channelName={null} />
+        <SideBarOption icon={<AppsIcon fontSize='small' style={{padding : 10}} />} title='Apps' addChannelOption={false} id='06' channelName={null} />
+        <SideBarOption icon={<FileCopyIcon fontSize='small' style={{padding : 10}} />} title='File browser' addChannelOption={false}  id='07' channelName={null}/>
+        <SideBarOption icon={<ExpandLessIcon fontSize='small' style={{padding : 10}} />} title='show less' addChannelOption={false} id='08'  channelName={null} />
         <hr/>
-        <SideBarOption icon={<ExpandMoreIcon fontSize='small' style={{padding : 10}} />} title='Channels' addChannelOption={false} id='09' /> 
+        <SideBarOption icon={<ExpandMoreIcon fontSize='small' style={{padding : 10}} />} title='Channels' addChannelOption={false} id='09'  channelName={null} /> 
         <hr/>
-        <SideBarOption icon={<AddIcon fontSize='small' style={{padding : 10}} />} title='Add' addChannelOption={true} id='010'/> 
+        <SideBarOption icon={<AddIcon fontSize='small' style={{padding : 10}} />} title='Add' addChannelOption={true} id='010' channelName={null}/> 
 
         {
             channels?.docs.map((e)=>{
                 // console.log(e.data());
-                return (<SideBarOption addChannelOption={false} title={`${e.data()['name']}`.toUpperCase()} icon={null}  key={e.id} id={e.id} />)
+                return (<SideBarOption addChannelOption={false} title={`${e.data()['name']}`.toUpperCase()} icon={null}  key={e.id} id={e.id}  channelName={e.data()['name']}/>)
             }
             
             )

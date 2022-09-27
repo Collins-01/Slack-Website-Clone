@@ -1,15 +1,17 @@
 import { Button } from '@mui/material';
 import { collection, addDoc, serverTimestamp} from 'firebase/firestore';
-import React, {  useState, MouseEvent } from 'react'
+import React, {  useState, MouseEvent, MutableRefObject } from 'react'
 import styled from 'styled-components';
 import { auth, db } from '../firebase_app';
 import {v4 as uuidv4} from 'uuid';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { DB } from '../constants';
 
 
 interface ChatInputProps{
     channelName: string;
     channelID : string | null;
+    chatRef: MutableRefObject<HTMLDivElement | null>
 }
 
 function ChatInput(props: ChatInputProps) {
@@ -18,18 +20,17 @@ function ChatInput(props: ChatInputProps) {
     const sendMessage = async(event: MouseEvent<HTMLButtonElement> )=>{
         event.preventDefault();
         try {
-            // if(!props.channelID) {
-            //     return;
-            // }
-            const collectionRef = collection(db,"ROOMS" ,`${props.channelID}` , "MESSAGES" ,`${uuidv4()}`);
-           const response = await addDoc(collectionRef, {
+            const ref = collection(db, `${DB.messages}`)
+           const response = await addDoc(ref, {
+                channelID : props.channelID,
                 message: input,
                 user:  user?.displayName ??'',
                 timestamp: serverTimestamp(),
                 userImage: user?.photoURL 
             });
-            console.log(`Response PATH::::::   ${response.path}`)
-            console.log(`Response ID::::::   ${response.id}`)
+            props.chatRef.current?.scrollIntoView({
+                behavior: 'smooth'
+            });
     
             setInput('')
         } catch (error) {
