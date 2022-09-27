@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { collection, addDoc, serverTimestamp} from 'firebase/firestore';
-import React, { useRef, useState } from 'react'
+import React, {  useState, MouseEvent } from 'react'
 import styled from 'styled-components';
 import { auth, db } from '../firebase_app';
 import {v4 as uuidv4} from 'uuid';
@@ -15,9 +15,8 @@ interface ChatInputProps{
 function ChatInput(props: ChatInputProps) {
     const [user] = useAuthState(auth);
     const [input, setInput] = useState<string>('');
-    const sendMessage = async()=>{
-        // e.preventDefault();
-        // TODO : E.PRVENTDEFAULT()
+    const sendMessage = async(event: MouseEvent<HTMLButtonElement> )=>{
+        event.preventDefault();
         try {
             // if(!props.channelID) {
             //     return;
