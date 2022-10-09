@@ -50,7 +50,6 @@ function SideBar() {
 
         {
             channels?.docs.map((e)=>{
-                // console.log(e.data());
                 return (<SideBarOption addChannelOption={false} title={`${e.data()['name']}`.toUpperCase()} icon={null}  key={e.id} id={e.id}  channelName={e.data()['name']}/>)
             }
             

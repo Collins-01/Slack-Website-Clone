@@ -6,7 +6,7 @@ interface MessageProps {
     message: string;
     sender: string;
     senderAvatar: string;
-    // timestamp: Timestamp 
+    timestamp: number 
 }
 function Message(props:MessageProps) {
   return (
@@ -15,7 +15,7 @@ function Message(props:MessageProps) {
         <MessageInfo>
             <h4>{props.sender}{' '}
             <span>
-                {'timestamp'}
+                {new Date(props.timestamp * 1000).toUTCString()}
             </span>
              </h4>
              <p>{props.message}</p>

@@ -1,9 +1,16 @@
 # Slack Website Clone
 
 
+## Features
+
+- Google Auth
+- Create a Channel
+- Send Message to Channel
 
 
-## Tools
+
+
+### Tools
 
 - Firebase
 - React
@@ -11,6 +18,7 @@
 - Redux
 - Firebase Hooks
 - Javascript
+- Styled Components
 
 
 

@@ -7,7 +7,6 @@ import { Route, Routes } from 'react-router-dom';
 import Protected, { ProtectedRouteProps } from './components/Protected';
 import Login from './pages/auth/Login';
 import HomePage from './pages/home/HomePage';
-import Header from './components/Header';
 import LoadingPage from './pages/LoadingPage';
 
 function App() {
@@ -40,3 +39,6 @@ const AppBody = styled.div`
 display: flex;
 height: 100vh;
 `;
+
+
+// https://images.unsplash.com/photo-1657299143549-73fb118d68aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80
