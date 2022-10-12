@@ -5,40 +5,24 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useAppSelector } from "../app/hooks";
 import { selectApp } from "../features/appSlice";
 import ChatInput from "./ChatInput";
-import { useCollection, useDocument } from "react-firebase-hooks/firestore";
-import {
-  collection,
-  doc,
-  orderBy,
-  query,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "../firebase_app";
-import { DB } from "../constants";
+import { useCollection } from "react-firebase-hooks/firestore";
 import Message from "./Message";
+import MessageService from "../services/message_service";
 
 function Chat() {
+  const messageService = new MessageService();
   const chatRef = useRef<HTMLDivElement | null>(null);
   const appState = useAppSelector(selectApp);
-  const roomQuery = query(collection(db, DB.rooms));
-  const messagesQuery = query(
-    collection(db, DB.messages),
-    orderBy("timestamp", "asc")
-  );
-  const [roomDetails] = useCollection(roomQuery);
-  const [messages, loading] = useCollection(messagesQuery);
+  const [messages, loading] = useCollection(messageService.messagesQuery);
   const roomMessages = () => {
     const filteredMessages = messages?.docs.filter(
-      (e) => e.data()["channelID"] == appState.roomId
+      (e) => e.data()["channelID"] === appState.roomId
     );
     if (filteredMessages !== null && filteredMessages !== undefined) {
       return filteredMessages;
     }
     return [];
   };
-
-  console.log(`Messages ::::: ${messages?.docs[0].data()["channelID"]}`);
-  console.log(`ROOMS::: ${roomDetails?.empty}`);
 
   useEffect(() => {
     chatRef.current?.scrollIntoView({
@@ -74,7 +58,7 @@ function Chat() {
                   message={data["message"]}
                   sender={data["user"]}
                   senderAvatar={data["userImage"]}
-                  timestamp = {data['timestamp']['seconds']}
+                  timestamp={data["timestamp"]["seconds"]}
                 />
               );
             })}

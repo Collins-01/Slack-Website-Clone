@@ -1,22 +1,30 @@
 import { Button } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { auth, provider } from "../../firebase_app";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import Spinner from "react-spinkit";
 
 function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
   const handleSignIn = async () => {
+    setLoading(true);
     signInWithPopup(auth, provider)
       .then((credentials) => {
+        setLoading(false);
         if (credentials.user) {
-          navigate("/home");
+          navigate("/home", {
+            replace: true,
+          });
         } else {
+          setLoading(false);
           alert("An error occured, please try again.");
         }
       })
       .catch((e) => {
+        setLoading(false);
         alert(e.message);
       });
   };
@@ -29,13 +37,27 @@ function Login() {
         />
         <h1>Sign In to HALOGENS</h1>
         <p>halogens.slack.com</p>
-        <Button onClick={handleSignIn}>Sign In with Google</Button>
+        {loading ? (
+          <LoadingIndicator>
+            <Spinner name="ball-spin-fade-loader" color="green" fadeIn="none" />
+          </LoadingIndicator>
+        ) : (
+          <Button onClick={handleSignIn}>Sign In with Google</Button>
+        )}
       </LoginInnerContainer>
     </LoginContainer>
   );
 }
 
 export default Login;
+
+const LoadingIndicator = styled.div`
+  margin-left: 150px;
+  margin-right: 150px;
+  align-items: center;
+  margin-top: 60px;
+  /* justify-items: center; */
+`;
 
 const LoginContainer = styled.div`
   place-items: center;
